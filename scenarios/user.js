@@ -9,6 +9,7 @@ const params = {
         'Content-Type': 'application/json',
         'x-api-key': 'reqres-free-v1'
     },
+    tags: { name: 'User' }
 };
 const createUserPayload = JSON.parse(open('../data/createUserPayload.json'));
 
@@ -18,7 +19,7 @@ export function create_user() {
     createUserPayload.name = randomString(5)
     payload = JSON.stringify(createUserPayload)
 
-    response = http.post(url, payload, params, { tags: { name: 'CreateUser' } });
+    response = http.post(url, payload, params);
 
     // custome metric to measure the time taken for the request
     createUserTime.add(response.timings.duration);
@@ -33,7 +34,7 @@ export function create_user() {
 
 export function get_user() {
     url = getBaseUrl() + '/api/users/1'
-    response = http.get(url, params, { tags: { name: 'GetUser' } });
+    response = http.get(url, params);
     check(response, {
         "Get user status code is : 200": (response) => response.status === 200,
     });
@@ -41,7 +42,7 @@ export function get_user() {
 
 export function get_list_of_user(page) {
     url = getBaseUrl() + '/api/users?page=' + page;
-    response = http.get(url);
+    response = http.get(url, params);
     check(response, {
         "Get list of user status code is : 200": (response) => response.status === 200,
     });
