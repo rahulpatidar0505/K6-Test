@@ -6,7 +6,7 @@ export function getBaseUrl() {
 
 export function handleSummary(data) {
     return {
-      "test-result.html": htmlReport(data),
+      "test-summary.html": htmlReport(data),
     };
 }
 

@@ -26,7 +26,7 @@ This project is used for performance testing of api's.
    We can run test using following configuration :
 
     Run/Debug configiration
-        1. k6 run test/apiTest.js k6
+        1. k6 run test/apiTest.js
 
         2. k6 run --iterations 5 --vus 5  test/apiTest.js
         
@@ -35,7 +35,7 @@ This project is used for performance testing of api's.
         4. k6 run --http-debug="full" test/apiTest.js
 
         5. ./k6 run --out dashboard=report=test-report.html test/apiTestWithOptions.js
-            ./k6 run --out dashboard=report=test-report.html test/apiTestWithScenarios.js
+           ./k6 run --out dashboard=report=test-report.html test/apiTestWithScenarios.js
         
         6. k6 run --stage 20s:10,30s:30,40s:50,1m:0 test/apiTest().js
             // simulate ramp-up of traffic from 1 to 10 users in 20 sec
