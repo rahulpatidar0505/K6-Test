@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import { check } from 'k6';
 import { getBaseUrl, randomString} from '../utility/helper.js';
+import { Trend } from 'k6/metrics';
 
 let url, payload, id, response;
 const params = {
@@ -11,12 +12,17 @@ const params = {
 };
 const createUserPayload = JSON.parse(open('../data/createUserPayload.json'));
 
+export const createUserTime = new Trend('create_user_time');
 export function create_user() {
     url = getBaseUrl() + '/api/users/';
     createUserPayload.name = randomString(5)
     payload = JSON.stringify(createUserPayload)
 
-    response = http.post(url, payload, params);
+    response = http.post(url, payload, params, { tags: { name: 'CreateUser' } });
+
+    // custome metric to measure the time taken for the request
+    createUserTime.add(response.timings.duration);
+
     id = response.json('id')
     check(response, {
         "Create project status code is : 201": (response) => response.status == 201,
@@ -27,7 +33,7 @@ export function create_user() {
 
 export function get_user() {
     url = getBaseUrl() + '/api/users/1'
-    response = http.get(url, params);
+    response = http.get(url, params, { tags: { name: 'GetUser' } });
     check(response, {
         "Get user status code is : 200": (response) => response.status === 200,
     });

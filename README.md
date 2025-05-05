@@ -30,11 +30,12 @@ This project is used for performance testing of api's.
 
         2. k6 run --iterations 5 --vus 5  test/apiTest.js
         
-        3. k6 run --vus 10 --duration 10h test/apiTest.js
+        3. k6 run --vus 10 --duration 1m test/apiTest.js
 
         4. k6 run --http-debug="full" test/apiTest.js
 
-        5. ./k6 run --out dashboard=report=test-report.html test/apiTestWithOptions.js
+        5. ./k6 run --out dashboard=report=test-report.html test/apiTest.js --vus 10 --duration 2m
+           ./k6 run --out dashboard=report=test-report.html test/apiTestWithOptions.js
            ./k6 run --out dashboard=report=test-report.html test/apiTestWithScenarios.js
         
         6. k6 run --stage 20s:10,30s:30,40s:50,1m:0 test/apiTest().js
