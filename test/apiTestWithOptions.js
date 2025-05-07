@@ -9,32 +9,33 @@ export let options = {
         http_req_duration: ["p(95)<5000"], //95% of requests should be below 5s
     },
     stages: [
+        { duration: '5s', target: 5 },
         { duration: '30s', target: 10 },
-        { duration: '1m', target: 10 },
-        { duration: '20s', target: 0 },
+        { duration: '2s', target: 0 },
       ],
 };
 
 export function setup() {
-    console.info('=============== This is for setup =============')
+    user.create_user()
 }
 
 export default function apiTest() {
     group('User API - ', function () {
-        user.create_user()
-    
         user.get_user()
-    
+
+        user.update_user()
+
         user.get_list_of_user(2)
     })
 
     group('Resource API - ', function () {
         resource.get_single_resource(2)
     })
+    
 }
 
 export function teardown() {
-    console.info('=============== This is for teardown ==========')
+    user.delete_user()
 }
 
 export { handleSummary };
