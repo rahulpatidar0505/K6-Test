@@ -1,0 +1,55 @@
+version: '3.4'
+
+services:
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    networks:
+      - monitoring
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_HTTP_BIND_ADDRESS=:8086
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards.yml
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - monitoring
+
+  k6:
+    image: grafana/k6:latest
+    container_name: k6
+    depends_on:
+      - influxdb
+    entrypoint:
+      - k6
+      - run
+      - --out
+      - influxdb=http://influxdb:8086/k6
+      - /K6-Test/scripts/apiTestWithOptions.js
+    volumes:
+      - .:/K6-Test
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    name: monitoring
+    driver: bridge
+    
+volumes:
+  influxdb-data:

@@ -4,14 +4,14 @@ import * as user from '../scenarios/user.js';
 import * as resource from '../scenarios/resource.js';
 
 export function setup() {
-    console.info('=============== This is for setup =============')
+    user.create_user()
 }
 
 export default function apiTest() {
     group('User API - ', function () {
-        user.create_user()
-    
         user.get_user()
+
+        user.update_user()
 
         user.get_list_of_user(2)
     })
@@ -23,7 +23,7 @@ export default function apiTest() {
 }
 
 export function teardown() {
-    console.info('=============== This is for teardown ==========')
+    user.delete_user()
 }
 
 export { handleSummary };

@@ -45,3 +45,9 @@ This project is used for performance testing of api's.
             // simulate ramp-up of traffic from 30 to 50 users in 40 sec
             // simulate ramp-up of traffic from 50 to 0 users in 1 min
 
+# Docker Integration::
+    If you are in Ubantu cd "/mnt/c/Users/rahulpatidar/OneDrive - Nagarro/Documents/Test Repo/K6-Test"
+
+    docker-compose down -v
+    docker network prune -f
+    docker-compose up -d --build
